@@ -91,12 +91,11 @@ namespace Example
         // Auth with IAM JWT credentials
         private static async Task WithIamJwtCredentials(Func<IamJwtCredentialsProvider, Task> action)
         {
-            var path = Environment.GetEnvironmentVariable(authKeyEnvVar);
-            if (path == null)
+            var json = Environment.GetEnvironmentVariable(authKeyEnvVar);
+            if (json == null)
             {
                 throw new InvalidOperationException($"{authKeyEnvVar} environment variable is not set");
             };
-            var json = await File.ReadAllTextAsync(path);
             var container = JsonSerializer.Deserialize<JsonContainer>(json);
             if (container == null)
             {
